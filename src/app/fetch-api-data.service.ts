@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { catchError } from 'rxjs/internal/operators';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+// import { catchError } from 'rxjs/internal/operators';
+import { HttpClient, HttpHeaders, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
+import { Response } from '@angular/http';
 
 //Declaring the api url that will provide data for the client app
 const apiUrl = 'https://myflixapi-0ezn.onrender.com';
@@ -76,6 +77,7 @@ export class UserRegistrationService {
   }
 
   getOneUser(userName: string): Observable<any> {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
     const token = localStorage.getItem('token');
     return this.http.get(apiUrl + 'users/' + user, {
     headers: new HttpHeaders(
@@ -108,8 +110,9 @@ export class UserRegistrationService {
 
 
   editUser(updatedUser: any): Observable<any> {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
     const token = localStorage.getItem('token');
-    return this.http.put(apiUrl + 'users/' + user.Username, updatedUser, {
+    return this.http.put(apiUrl + 'users/' + user, updatedUser, {
       headers: new HttpHeaders({
         Authorization: 'Bearer ' + token,
       })
@@ -120,6 +123,7 @@ export class UserRegistrationService {
   }
 
   deleteUser(): Observable<any> {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
     const token = localStorage.getItem('token');
     return this.http.delete(apiUrl + 'users/' + user._id, {
       headers: new HttpHeaders({
@@ -131,8 +135,9 @@ export class UserRegistrationService {
   }
 
   addFavoriteMovie(movieId: string): Observable<any> {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
     const token = localStorage.getItem('token');
-    return this.http.put(apiUrl + `users/${user.Username}/${movieId}`, {}, {
+    return this.http.put(apiUrl + `users/${user.Username}/movies/${movieId}`, {}, {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
         Authorization: 'Bearer ' + token,
@@ -144,8 +149,9 @@ export class UserRegistrationService {
   }
 
   deleteFavoriteMovie(movieId: string): Observable<any> {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
     const token = localStorage.getItem('token');
-    return this.http.delete(apiUrl + `users/${user.Username}/${movieId}`, {
+    return this.http.delete(apiUrl + `users/${user.Username}/movies/${movieId}`, {
       headers: new HttpHeaders({
         Authorization: 'Bearer ' + token,
       })
@@ -156,7 +162,7 @@ export class UserRegistrationService {
   }
     
 
-   
+  
 
   // Non-typed response extraction
     private extractResponseData(res: Response): any {
