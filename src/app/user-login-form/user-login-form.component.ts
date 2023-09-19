@@ -39,7 +39,7 @@ loginUser(): void {
         duration: 2000
      });
     }, (response) => {
-      this.snackBar.open('User logged in successfully', 'OK', {
+      this.snackBar.open('User did NOT log in', 'OK', {
         duration: 2000
       });
     });
