@@ -7,6 +7,11 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./movie-detail-dialog.component.scss']
 })
 export class MovieDetailDialogComponent implements OnInit {
+
+  /**
+   * Constructor for the movie detail dialog component.
+   * @param data - Data injected into the dialog, typically containing title and content.
+   */
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {

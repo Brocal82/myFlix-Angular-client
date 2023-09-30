@@ -3,6 +3,7 @@ import { FetchApiDataService } from '../fetch-api-data.service'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
+
 type User = { _id?: string, Username?: string, Password?: string, Email?: string, FavoriteMovies?: [] }
 
 @Component({
@@ -22,12 +23,12 @@ export class ProfilePageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const user = this.getUser();
-
+   const user = this.getUser();
     if (!user._id) {
       this.router.navigate(['welcome']);
       return;
     }
+
 
     this.user = user;
     this.userData = {
@@ -37,10 +38,19 @@ export class ProfilePageComponent implements OnInit {
     }
   }
 
+
+/**
+   * Retrieves user data from local storage.
+   * @returns The user object retrieved from local storage.
+   */
   getUser(): User {
     return JSON.parse(localStorage.getItem('user') || '{}');
   }
 
+  /**
+   * Updates the user's profile information.
+   * Displays a success notification upon successful update.
+   */
   updateUser(): void {
     this.fetchApiData.editUser(this.userData).subscribe((response) => {
       console.log(response)
@@ -52,6 +62,10 @@ export class ProfilePageComponent implements OnInit {
     })
   }
 
+  /**
+   * Deletes the user's account with confirmation.
+   * Navigates back to the welcome page upon successful deletion.
+   */
   deleteUser(): void {
     if (confirm('are you sure?')) {
       this.router.navigate(['welcome']).then(() => {

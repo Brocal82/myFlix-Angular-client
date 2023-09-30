@@ -33,7 +33,11 @@ constructor(
 
 ngOnInit(): void {}
 
-  // This is the function responsible for sending the form inputs to the backend
+  /**
+   * Sends the user registration data to the backend.
+   * Closes the modal on success and displays a success notification.
+   * Logs the user in and navigates to the movies page.
+   */
   registerUser(): void {
     this.fetchApiData.userRegistration(this.userData).subscribe((result) => {
       this.dialogRef.close(); // This will close the modal on success!
